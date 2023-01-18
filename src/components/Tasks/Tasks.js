@@ -2,10 +2,10 @@ import React from 'react'
 import "./Tasks.css";
 import Collapsible from '../Collapsible/Collapsible';
 import { useState } from 'react';
+// import actions from '../../actions';
 
 function Tasks() {
     let [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
-
 
     let onSaveClick = () => {
         setIsNewTaskOpen(!isNewTaskOpen);
