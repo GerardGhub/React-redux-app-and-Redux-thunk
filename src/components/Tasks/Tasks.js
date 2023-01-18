@@ -1,75 +1,95 @@
 import React from 'react'
 import "./Tasks.css";
-
+import Collapsible from '../Collapsible/Collapsible';
+import { useState } from 'react';
 
 function Tasks() {
+    let [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
+
+
+    let onSaveClick = () => {
+        setIsNewTaskOpen(!isNewTaskOpen);
+    };
+
+    let onCancelClick = () => {
+        setIsNewTaskOpen(!isNewTaskOpen);
+    };
+
     return (
         <div className='outer-container'>
-            <div class="container">
-                <div class="app-title-container">
-                    <div class="app-title">
+            <div className="container">
+                <div className="app-title-container">
+                    <div className="app-title">
                         <h1>Tasks</h1>
                     </div>
 
-                    <div class="create-button-container">
+                    <div className="create-button-container">
 
-                        <button class="button create-button">
-                            <i class="fa fa-calendar-plus"></i>
-                            &nbsp;&nbsp;
-                            Create
-                        </button>
+                        {isNewTaskOpen === false ?
+                            <button className="button create-button"
+                                onClick={() => { setIsNewTaskOpen(!isNewTaskOpen); }}>
+                                <i className="fa fa-calendar-plus"></i>
+                                &nbsp;&nbsp;
+                                Create
+                            </button> : null}
                     </div>
                 </div>
 
-                <div class="new-task-container">
-                    <h4 class="new-task-title">New Task</h4>
+                <Collapsible isOpen={isNewTaskOpen}>
 
-                    {/* {Form Group Starts} */}
-                    <div class="form-group">
-                        <label className='form-label' htmlFor='task-title'>
-                            Task Title:
-                        </label>
+                    <div className="new-task-container">
+                        <h4 className="new-task-title">New Task</h4>
 
-                        <div class="form-input">
-                            <input type="text" className='text-box'
-                                id='task-title'
-                                placeholder='Task Title' />
+                        {/* {Form Group Starts} */}
+                        <div className="form-group">
+                            <label className='form-label' htmlFor='task-title'>
+                                Task Title:
+                            </label>
 
-                        </div>
+                            <div className="form-input">
+                                <input type="text" className='text-box'
+                                    id='task-title'
+                                    placeholder='Task Title' />
 
-                    </div>
-
-                    {/* {Form Group Ends} */}
-
-
-                    {/* {Form Group Starts} */}
-                    <div class="form-group">
-                        <label className='form-label' htmlFor='task-date-time'>
-                            Task Date and Time:
-                        </label>
-                        <div class="form-input">
-
-                            <input type="datetime-local" className='text-box'
-                                id='task-date-time'
-                                placeholder='Task Date and Time' />
+                            </div>
 
                         </div>
+
+                        {/* {Form Group Ends} */}
+
+
+                        {/* {Form Group Starts} */}
+                        <div className="form-group">
+                            <label className='form-label' htmlFor='task-date-time'>
+                                Task Date and Time:
+                            </label>
+                            <div className="form-input">
+
+                                <input type="datetime-local" className='text-box'
+                                    id='task-date-time'
+                                    placeholder='Task Date and Time' />
+
+                            </div>
+                        </div>
+
+                        {/* {Form Group Ends} */}
+
+                        <div className="button-group">
+                            <button className="button save-button"
+                                onClick={() => { onSaveClick(); }}
+                            >
+                                <i className="fa fa-save"></i>&nbsp;&nbsp;
+                                Save Task
+                            </button>
+
+                            <button className="button cancel-button"
+                                onClick={() => { onCancelClick(); }}>
+                                <i className="fa fa-window-close"></i>&nbsp;&nbsp;
+                                Cancel
+                            </button>
+                        </div>
                     </div>
-
-                    {/* {Form Group Ends} */}
-
-                    <div class="button-group">
-                        <button class="button save-button">
-                            <i class="fa fa-save"></i>&nbsp;&nbsp;
-                            Save Task
-                        </button>
-
-                        <button class="button cancel-button">
-                            <i class="fa fa-window-close"></i>&nbsp;&nbsp;
-                            Cancel
-                        </button>
-                    </div>
-                </div>
+                </Collapsible>
 
                 <div className="search-box">
                     <input type="search"
@@ -82,8 +102,8 @@ function Tasks() {
                     <div className="task">
                         <div className="task-body">
                             <div className="task-title">
-                                <i class="fa fa-thumbtack"></i>
-                                <span class="task-title-text">Bob's Appointment</span>
+                                <i className="fa fa-thumbtack"></i>
+                                <span className="task-title-text">Bob's Appointment</span>
                             </div>
                             <div className='task-subtitle'>
                                 <i className='far fa-clock'></i>
@@ -93,16 +113,16 @@ function Tasks() {
                             </div>
                         </div>
 
-                        <div class="task-options">
+                        <div className="task-options">
                             <button className="icon-button" title='Delete'>&times;</button>
+                        </div>
+
                     </div>
 
+                    {/* task ends  */}
                 </div>
 
-                {/* task ends  */}
             </div>
-
-        </div>
         </div >
     )
 }
