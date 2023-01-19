@@ -9,7 +9,7 @@ export const createTask = (newTask) => {
 };
 
 
-export const deletTask = (taskId) => {
+export const deleteTask = (taskId) => {
     return {
         type: actionTypes.DELETE_TASK,
         payload: taskId

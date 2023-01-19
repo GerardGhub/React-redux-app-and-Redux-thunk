@@ -2,16 +2,33 @@ import React from 'react'
 import "./Tasks.css";
 import Collapsible from '../Collapsible/Collapsible';
 import { useState } from 'react';
-// import actions from '../../actions';
-import { useSelector } from "react-redux";
+import actions from '../../actions';
+import { useSelector, useDispatch } from "react-redux";
 
 function Tasks() {
     //get state from redux store
     let tasks = useSelector(state => state.tasks);
 
+    //local state
+    let [taskTitle, setTaskTitle] = useState("");
+    let [taskDateTime, setTaskDateTime] = useState("");
+
     let [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
 
+    //create dispatch function
+    let dispatch = useDispatch();
+
     let onSaveClick = () => {
+        //dispatch
+        dispatch(actions.createTask({
+            id: Math.floor(Math.random() * 10000000),
+            taskTitle: taskTitle,
+            taskDateTime: taskDateTime
+        }));
+
+        //clear
+        setTaskTitle("");
+        setTaskDateTime("");
         setIsNewTaskOpen(!isNewTaskOpen);
     };
 
@@ -53,8 +70,9 @@ function Tasks() {
                             <div className="form-input">
                                 <input type="text" className='text-box'
                                     id='task-title'
-                                    placeholder='Task Title' />
-
+                                    placeholder='Task Title'
+                                    value={taskTitle}
+                                    onChange={(event) => { setTaskTitle(event.target.value) }} />
                             </div>
 
                         </div>
@@ -71,7 +89,10 @@ function Tasks() {
 
                                 <input type="datetime-local" className='text-box'
                                     id='task-date-time'
-                                    placeholder='Task Date and Time' />
+                                    placeholder='Task Date and Time'
+                                    value={taskDateTime}
+                                    onChange={(event) => { setTaskDateTime(event.target.value) }}
+                                />
 
                             </div>
                         </div>
