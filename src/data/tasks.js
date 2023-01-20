@@ -1,7 +1,7 @@
 export const initialTasks = [
     {
         id: 1,
-        taskTitle: "Appointment with Bob",
+        taskTitle: "Appointment with Bobx",
         taskDateTime: "2022-01-18 9:30"
     },
     {
