@@ -25,8 +25,12 @@ function Tasks() {
 
     //get state from redux store
     let tasks = useSelector(state => state.tasks);
-    let filteredTasks = tasks.filter(task =>
-        task.taskTitle.toLowerCase().indexOf(search.toLowerCase()) >= 0);
+    let filteredTasks = [];
+    if (tasks && tasks.data.length > 0) {
+        filteredTasks = tasks.data.filter(task =>
+            task.taskTitle.toLowerCase().indexOf(search.toLowerCase()) >= 0);
+    }
+
 
 
     let onSaveClick = () => {
@@ -58,7 +62,12 @@ function Tasks() {
             <div className="container">
                 <div className="app-title-container">
                     <div className="app-title">
-                        <h1>Tasks</h1>
+                        <h1>Tasks&nbsp;
+                            {tasks.loading ?
+                                <i className="fas fa-spinner fa-spin"></i> : ""}
+                        </h1>
+                        {tasks.error ? <h2>tasks.error.message</h2> : ""}
+
                     </div>
 
                     <div className="create-button-container">
