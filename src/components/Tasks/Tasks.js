@@ -7,14 +7,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { toDisplayableDateFormat } from '../../utils';
 
 function Tasks() {
-    //get state from redux store
-    let tasks = useSelector(state => state.tasks);
 
-    //local state
+
+    //state
     let [taskTitle, setTaskTitle] = useState("");
     let [taskDateTime, setTaskDateTime] = useState("");
-
     let [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
+    let [search, setSearch] = useState("");
+
+    //get state from redux store
+    let tasks = useSelector(state => state.tasks);
+    let filteredTasks = tasks.filter(task =>
+        task.taskTitle.toLowerCase().indexOf(search.toLocaleLowerCase()) >= 0);
+
 
     //create dispatch function
     let dispatch = useDispatch();
@@ -125,14 +130,16 @@ function Tasks() {
 
                 <div className="search-box">
                     <input type="search"
-                        placeholder='Search' />
+                        placeholder='Search' value={search}
+                        onChange={(event) => { setSearch(event.target.value); }}
+                    />
                     <i className="fa fa-search"></i>
                 </div>
 
                 <div className="content-body">
 
                     {/* task starts  */}
-                    {tasks.map(task =>
+                    {filteredTasks.map(task =>
                         <div className="task" key={task.id}>
                             <div className="task-body">
                                 <div className="task-title">
