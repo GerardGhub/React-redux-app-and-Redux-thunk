@@ -4,6 +4,7 @@ import Collapsible from '../Collapsible/Collapsible';
 import { useState } from 'react';
 import actions from '../../actions';
 import { useSelector, useDispatch } from "react-redux";
+import { toDisplayableDateFormat } from '../../utils';
 
 function Tasks() {
     //get state from redux store
@@ -34,6 +35,12 @@ function Tasks() {
 
     let onCancelClick = () => {
         setIsNewTaskOpen(!isNewTaskOpen);
+    };
+
+    let onDeleteClick = (tasks) => {
+        if (window.confirm("Are you sure to delete this task?")) {
+            dispatch(actions.deleteTask(tasks.id));
+        }
     };
 
     return (
@@ -135,13 +142,18 @@ function Tasks() {
                                 <div className='task-subtitle'>
                                     <i className='far fa-clock'></i>
                                     <span className="task-subtitle-text">
-                                        {task.taskDateTime}
+                                        {toDisplayableDateFormat(task.taskDateTime)}
                                     </span>
                                 </div>
                             </div>
 
                             <div className="task-options">
-                                <button className="icon-button" title='Delete'>&times;</button>
+                                <button className="icon-button" title='Delete'
+                                    onClick={() => {
+                                        onDeleteClick(task)
+                                    }}
+
+                                >&times;</button>
                             </div>
 
                         </div>
