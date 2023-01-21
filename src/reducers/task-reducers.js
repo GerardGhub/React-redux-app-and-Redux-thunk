@@ -40,8 +40,10 @@ export const tasksReducer = (state = initialState, action) => {
             return { data: state.data, loading: true, error: "" };
 
         case actionTypes.DELETE_TASK_SUCCESS:
-            return { data: state.data.filter(task => task.id !== action.payload),
-                 loading: false, error: "" };
+            return {
+                data: state.data.filter(task => task.id !== action.payload),
+                loading: false, error: ""
+            };
 
         case actionTypes.DELETE_TASK_ERROR:
             return { data: state.data, loading: false, error: action.payload };
