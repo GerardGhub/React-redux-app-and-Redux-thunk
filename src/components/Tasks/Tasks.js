@@ -3,28 +3,27 @@ import "./Tasks.css";
 import Collapsible from '../Collapsible/Collapsible';
 import { useState, useEffect } from 'react';
 import actions from '../../actions';
-import { useSelector, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { toDisplayableDateFormat } from '../../utils';
 
-function Tasks() {
+function Tasks(props) {
 
-
+    console.log(props);
     //state
     let [taskTitle, setTaskTitle] = useState("");
     let [taskDateTime, setTaskDateTime] = useState("");
     let [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
     let [search, setSearch] = useState("");
-
-    //create dispatch function
-    let dispatch = useDispatch();
+    let {dispatch} = props;
 
     //run on first render
     useEffect(() => {
-        dispatch(actions.fetchTasks());
+        props.dispatch(actions.fetchTasks());
     }, [dispatch]);
 
     //get state from redux store
-    let tasks = useSelector(state => state.tasks);
+    let tasks = props.tasks;
+    
     let filteredTasks = [];
     if (tasks && tasks.data.length > 0) {
         filteredTasks = tasks.data.filter(task =>
@@ -66,7 +65,7 @@ function Tasks() {
                             {tasks.loading ?
                                 <i className="fas fa-spinner fa-spin"></i> : ""}
                         </h1>
-                        {tasks.error ? <h2>tasks.error.message</h2> : ""}
+                        {tasks.error ? <h2>{tasks.error.message}</h2> : ""}
 
                     </div>
 
@@ -190,5 +189,9 @@ function Tasks() {
         </div >
     )
 }
-
-export default Tasks
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks
+    };
+};
+export default connect(mapStateToProps)(Tasks);
