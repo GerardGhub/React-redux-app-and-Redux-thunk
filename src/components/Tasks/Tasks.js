@@ -194,18 +194,10 @@ const mapStateToProps = (state) => ({
     tasks: state.tasks
 });
 
-const mapDispatchToProps = (dispatch) => ({
-
-    dispatchFetchTasks: () => {
-        dispatch(actions.fetchTasks());
-    },
-    dispatchCreateTask: (newTask) => {
-        dispatch(actions.createTask(newTask));
-    },
-    dispatchDeleteTask: (taskId) => {
-        dispatch(actions.deleteTask(taskId));
-    }
-
-});
+const mapDispatchToProps = {
+    dispatchFetchTasks: actions.fetchTasks,
+    dispatchCreateTask: actions.createTask,
+    dispatchDeleteTask: actions.deleteTask
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks);
