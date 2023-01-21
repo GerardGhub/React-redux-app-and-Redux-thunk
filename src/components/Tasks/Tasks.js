@@ -7,23 +7,24 @@ import { connect } from "react-redux";
 import { toDisplayableDateFormat } from '../../utils';
 
 function Tasks(props) {
-
+//{tasks,dispatchaction, dispatchCreateTask, dispatchDeleteTasks}
     console.log(props);
     //state
     let [taskTitle, setTaskTitle] = useState("");
     let [taskDateTime, setTaskDateTime] = useState("");
     let [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
     let [search, setSearch] = useState("");
-    let {dispatch} = props;
+    let { dispatchFetchTasks, dispatchCreateTask, dispatchDeleteTask } = props;
 
     //run on first render
     useEffect(() => {
-        props.dispatch(actions.fetchTasks());
-    }, [dispatch]);
+        // props.dispatch(actions.fetchTasks());
+        dispatchFetchTasks();
+    }, [dispatchFetchTasks]);
 
     //get state from redux store
     let tasks = props.tasks;
-    
+
     let filteredTasks = [];
     if (tasks && tasks.data.length > 0) {
         filteredTasks = tasks.data.filter(task =>
@@ -34,11 +35,11 @@ function Tasks(props) {
 
     let onSaveClick = () => {
         //dispatch
-        dispatch(actions.createTask({
+        dispatchCreateTask({
             id: Math.floor(Math.random() * 10000000),
             taskTitle: taskTitle,
             taskDateTime: taskDateTime
-        }));
+        });
 
         //clear
         setTaskTitle("");
@@ -52,7 +53,7 @@ function Tasks(props) {
 
     let onDeleteClick = (tasks) => {
         if (window.confirm("Are you sure to delete this task?")) {
-            dispatch(actions.deleteTask(tasks.id));
+            dispatchDeleteTask(tasks.id);
         }
     };
 
@@ -189,9 +190,22 @@ function Tasks(props) {
         </div >
     )
 }
-const mapStateToProps = (state) => {
-    return {
-        tasks: state.tasks
-    };
-};
-export default connect(mapStateToProps)(Tasks);
+const mapStateToProps = (state) => ({
+    tasks: state.tasks
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+    dispatchFetchTasks: () => {
+        dispatch(actions.fetchTasks());
+    },
+    dispatchCreateTask: (newTask) => {
+        dispatch(actions.createTask(newTask));
+    },
+    dispatchDeleteTask: (taskId) => {
+        dispatch(actions.deleteTask(taskId));
+    }
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tasks);
