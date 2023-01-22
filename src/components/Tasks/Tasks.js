@@ -8,7 +8,7 @@ import { toDisplayableDateFormat } from '../../utils';
 
 function Tasks(props) {
 //{tasks,dispatchaction, dispatchCreateTask, dispatchDeleteTasks}
-    console.log(props);
+    // console.log(props);
     //state
     let [taskTitle, setTaskTitle] = useState("");
     let [taskDateTime, setTaskDateTime] = useState("");
