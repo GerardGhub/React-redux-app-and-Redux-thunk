@@ -3,7 +3,8 @@ import allReducers from "../reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reduxThunk from "redux-thunk";
 import { createLogger } from "redux-logger";
-// import * as actionTypes from "../constants/action-types";
+import * as actionTypes from "../constants/action-types";
+import { v1 as uuid } from "uuid";
 
 //basic logs
 //var logger  = createLogger();
@@ -30,6 +31,7 @@ import { createLogger } from "redux-logger";
 // });
 
 
+
 //expand only when environment is development
 var logger = createLogger({
     predicate: (getState, action) => {
@@ -37,10 +39,24 @@ var logger = createLogger({
     }
 });
 
+//custom middleware
+const myLogger = (store) => (next) => (action) => {
+    // console.log("my custom middleware executed");
+    // console.log(store);
+    // console.log(next);
+    // console.log(action);
+
+    if (action.type === actionTypes.CREATE_TASK_REQUEST) {
+        action.payload.id = uuid();
+    }
+
+    next(action); // bypass the action into the subsequent middleware
+};
 
 
 
 
 var store = createStore(allReducers, composeWithDevTools
-    (applyMiddleware(reduxThunk, logger)));
+    (applyMiddleware(myLogger, reduxThunk, logger)));
+// (applyMiddleware(reduxThunk, logger)));
 export default store;
