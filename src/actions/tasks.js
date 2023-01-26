@@ -28,7 +28,7 @@ export const fetchTasks = () => async (dispatch, getState) => {
 
 export const createTask = (newTask) => async (dispatch) => {
     //dispatch response data to CREATE_TASK_REQUEST action; it will be received by the reducer.
-    dispatch({ type: actionTypes.CREATE_TASK_REQUEST });
+    dispatch({ type: actionTypes.CREATE_TASK_REQUEST, payload: newTask });
 
     try {
         var response = await axios.post("http://localhost:7000/tasks", newTask);
@@ -53,7 +53,7 @@ export const deleteTask = (taskId) => async (dispatch) => {
     dispatch({ type: actionTypes.DELETE_TASK_REQUEST });
 
     try {
-       await axios.delete(`http://localhost:7000/tasks/${taskId}`);
+        await axios.delete(`http://localhost:7000/tasks/${taskId}`);
 
         //dispatch response dta to DELETE_TASKS_SUCCESS action; it will be received by the reducer
         dispatch({
